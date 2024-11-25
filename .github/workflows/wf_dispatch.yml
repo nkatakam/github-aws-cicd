@@ -1,0 +1,30 @@
+name: Manual Workflow Dispatch
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "The environment to deploy to (e.g., dev, staging, prod)"
+        required: true
+        default: "dev"
+      version:
+        description: "The version of the application to deploy"
+        required: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Display Inputs
+        run: |
+          echo "Deploying to environment: ${{ github.event.inputs.environment }}"
+          echo "Application version: ${{ github.event.inputs.version || 'latest' }}"
+
+      - name: Deploy Application
+        run: |
+          echo "Deploying application to ${{ github.event.inputs.environment }} environment"
+          # Add your deployment commands here
